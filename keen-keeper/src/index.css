@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #2B4E41;      /* Figma Dark Green */
+  --color-bg-light: #F9FAFB;     /* Figma Background */
+  
+  /* Card Backgrounds */
+  --color-card-blue: #EEF2FF;
+  --color-card-green: #F0FDF4;
+  --color-card-orange: #FFF7ED;
+  --color-card-purple: #FAF5FF;
+
+  /* Spacing & Radius */
+  --radius-figma: 24px;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-light font-['Inter',sans-serif] text-[#111827];
+  }
+}

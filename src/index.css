@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/* Custom Variables */
+:root {
+  --color-primary: #2B4E41;
+  --color-bg-light: #F9FAFB;
+
+  /* Card Colors */
+  --color-card-blue: #EEF2FF;
+  --color-card-green: #F0FDF4;
+  --color-card-orange: #FFF7ED;
+  --color-card-purple: #FAF5FF;
+
+  /* Radius */
+  --radius-figma: 24px;
+}
+
+/* Base Styles */
+@layer base {
+  body {
+    @apply font-sans text-[#111827];
+    background-color: var(--color-bg-light);
+  }
+}
