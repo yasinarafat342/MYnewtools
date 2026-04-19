@@ -1,131 +1,97 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Phone, MessageSquare, Video, Users, ChevronDown, Filter, X } from 'lucide-react';
-import { useInteractions } from '../InteractionContext';
+import { useState } from "react";
+import { Phone, MessageSquare, Video, MapPin, Clock, Calendar } from "lucide-react";
 
-const Timeline = () => {
-  const { timelineData } = useInteractions();
-  const [filter, setFilter] = useState('All');
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+export default function Timeline({ allEvents }) {
+  // ১. ফিল্টার স্টেট
+  const [filter, setFilter] = useState("All");
 
-  // বাইরে ক্লিক করলে ড্রপডাউন বন্ধ করার জন্য (Real project standard)
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  // ২. ফিল্টার লজিক (এটি আপনার রিয়েল লাইফ প্রোজেক্টের ডাটা ফিল্টার করবে)
+  const filteredEvents = filter === "All" 
+    ? allEvents 
+    : allEvents.filter((e) => e.type === filter);
 
-  const filterOptions = [
-    { label: 'All Activities', value: 'All', icon: <Filter size={16} /> },
-    { label: 'Calls', value: 'Call', icon: <Phone size={16} /> },
-    { label: 'Messages', value: 'Text', icon: <MessageSquare size={16} /> },
-    { label: 'Video Chats', value: 'Video', icon: <Video size={16} /> },
-    { label: 'Meetups', value: 'Meetup', icon: <Users size={16} /> },
-  ];
+  const filters = ["All", "Call", "Video", "Text", "Meetup"];
 
-  const getIcon = (type) => {
+  // ৩. টাইপ অনুযায়ী স্টাইল ম্যাপিং
+  const getTypeStyles = (type) => {
     switch (type) {
-      case 'Call': return <Phone size={18} className="text-green-600" />;
-      case 'Text': return <MessageSquare size={18} className="text-blue-500" />;
-      case 'Video': return <Video size={18} className="text-purple-500" />;
-      case 'Meetup': return <Users size={18} className="text-yellow-600" />;
-      default: return <Users size={18} className="text-gray-400" />;
+      case "Call": return { icon: <Phone size={14} />, color: "bg-[#234E42]", text: "text-[#234E42]" };
+      case "Video": return { icon: <Video size={14} />, color: "bg-[#7E2FFF]", text: "text-[#7E2FFF]" };
+      case "Text": return { icon: <MessageSquare size={14} />, color: "bg-[#3CAE6F]", text: "text-[#3CAE6F]" };
+      case "Meetup": return { icon: <MapPin size={14} />, color: "bg-orange-500", text: "text-orange-500" };
+      default: return { icon: <Clock size={14} />, color: "bg-gray-500", text: "text-gray-500" };
     }
   };
 
-  const filteredData = filter === 'All' 
-    ? timelineData 
-    : timelineData.filter(item => item.type === filter);
-
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10">
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-        <h1 className="text-4xl font-black text-[#1E293B]">Timeline</h1>
-
-        {/* --- Custom Professional Filter --- */}
-        <div className="relative" ref={dropdownRef}>
-          <button 
-            onClick={() => setIsOpen(!isOpen)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all duration-200 shadow-sm text-sm font-bold
-              ${isOpen ? 'border-blue-500 ring-2 ring-blue-50 bg-blue-50 text-blue-600' : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'}`}
-          >
-            {filterOptions.find(opt => opt.value === filter)?.icon}
-            <span>{filterOptions.find(opt => opt.value === filter)?.label}</span>
-            <ChevronDown size={16} className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
-          </button>
-
-          {/* Dropdown Menu */}
-          {isOpen && (
-            <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in duration-200">
-              {filterOptions.map((option) => (
-                <button
-                  key={option.value}
-                  onClick={() => {
-                    setFilter(option.value);
-                    setIsOpen(false);
-                  }}
-                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold transition-colors
-                    ${filter === option.value ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'}`}
-                >
-                  <span className={filter === option.value ? 'text-blue-600' : 'text-gray-400'}>
-                    {option.icon}
-                  </span>
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          )}
+    <div className="max-w-4xl mx-auto p-8 bg-white rounded-[32px] border border-gray-100 shadow-sm mt-10">
+      
+      {/* হেডার ও ফিল্টার সেকশন */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+        <div>
+          <h3 className="text-2xl font-black text-[#1E293B] flex items-center gap-2">
+            <Calendar className="text-gray-400" /> Recent Activities
+          </h3>
+          <p className="text-gray-400 text-xs font-bold mt-1 uppercase tracking-wider">
+            Showing {filter} interactions
+          </p>
+        </div>
+        
+        {/* মডার্ন ফিল্টার বাটন */}
+        <div className="flex gap-1 bg-gray-50 p-1.5 rounded-2xl border border-gray-100 overflow-x-auto">
+          {filters.map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-5 py-2 rounded-xl text-xs font-black transition-all duration-300 whitespace-nowrap ${
+                filter === f 
+                ? "bg-white text-black shadow-md scale-105" 
+                : "text-gray-400 hover:text-gray-600"
+              }`}
+            >
+              {f}
+            </button>
+          ))}
         </div>
       </div>
 
-     
-      {filter !== 'All' && (
-        <div className="flex items-center gap-2 mb-6">
-           <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Active Filter:</span>
-           <div className="flex items-center gap-1.5 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-bold">
-              {filter}
-              <X size={14} className="cursor-pointer hover:text-red-500" onClick={() => setFilter('All')} />
-           </div>
-        </div>
-      )}
+      {/* টাইমলাইন মেইন লিস্ট */}
+      <div className="relative border-l-2 border-dashed border-gray-100 ml-4 space-y-10">
+        {filteredEvents.length > 0 ? (
+          filteredEvents.map((item) => {
+            const style = getTypeStyles(item.type);
+            return (
+              <div key={item.id} className="relative pl-10 group">
+                
+                {/* টাইমলাইন আইকন ডট */}
+                <div className={`absolute -left-[17px] top-0 w-8 h-8 rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white z-10 transition-transform group-hover:scale-110 ${style.color}`}>
+                  {style.icon}
+                </div>
 
-     
-      <div className="flex flex-col gap-4">
-        {filteredData.length === 0 ? (
-          <div className="py-20 text-center bg-white rounded-3xl border-2 border-dashed border-gray-100">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-50 rounded-full mb-4">
-                <Filter className="text-gray-300" size={32} />
-            </div>
-            <p className="text-gray-400 font-bold italic">No {filter !== 'All' ? filter : ''} interactions found.</p>
-          </div>
+                {/* কন্টেন্ট কার্ড - রিয়েল লাইফ ইউআই */}
+                <div className="bg-[#F8FAFC] p-5 rounded-[24px] group-hover:bg-white group-hover:shadow-xl group-hover:shadow-gray-100 transition-all duration-300 border border-transparent group-hover:border-gray-100">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${style.text}`}>
+                      {item.type}
+                    </span>
+                    <span className="text-[11px] font-bold text-gray-400 flex items-center gap-1.5">
+                      <Clock size={12} /> {item.time}
+                    </span>
+                  </div>
+                  <h4 className="text-base font-black text-[#1E293B] group-hover:text-black">{item.title}</h4>
+                  <p className="text-sm text-gray-500 mt-2 font-medium leading-relaxed">
+                    {item.desc || "No additional details provided for this interaction."}
+                  </p>
+                </div>
+              </div>
+            );
+          })
         ) : (
-          filteredData.map((item, index) => (
-            <div 
-              key={index} 
-              className="flex items-center gap-4 p-5 rounded-2xl border border-gray-50 bg-white shadow-sm transition-all hover:shadow-md hover:translate-x-1"
-            >
-              <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-2xl shadow-inner">
-                {getIcon(item.type)}
-              </div>
-
-              <div className="flex flex-col flex-1">
-                <p className="text-sm font-bold text-gray-600">
-                  <span className="text-blue-600 font-black">{item.type}</span> with {item.person}
-                </p>
-                <p className="text-[11px] font-black text-gray-300 uppercase tracking-wide mt-1">
-                  {item.date}
-                </p>
-              </div>
-            </div>
-          ))
+          <div className="text-center py-20 bg-gray-50 rounded-[32px] border-2 border-dashed border-gray-100">
+            <p className="text-gray-400 font-bold">No {filter} activities found.</p>
+          </div>
         )}
       </div>
     </div>
   );
-};
-
-export default Timeline;
+}
