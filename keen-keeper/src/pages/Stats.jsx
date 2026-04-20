@@ -3,12 +3,12 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function Stats() {
 
-  // ✅ timeline data
+
   const { timelineData } = useInteractions();
 
   const COLORS = ["#234E42", "#7E2FFF", "#3CAE6F"];
 
-  // ✅ count types (Timeline অনুযায়ী)
+
   const typeCounts = timelineData.reduce(
     (acc, curr) => {
       acc[curr.type] = (acc[curr.type] || 0) + 1;
@@ -19,7 +19,7 @@ export default function Stats() {
 
   const totalLogs = timelineData.length;
 
-  // ✅ dynamic data (UI same থাকবে)
+ 
   const data = [
     {
       name: "Call",
@@ -48,7 +48,7 @@ export default function Stats() {
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-10">
           
-          {/* LEFT */}
+      
           <div className="flex-1">
             <p className="text-gray-400 text-[11px] font-black uppercase tracking-widest mb-4">
               By Interaction Type
@@ -69,7 +69,7 @@ export default function Stats() {
             </div>
           </div>
 
-          {/* 🔥 CHART (UNCHANGED DESIGN) */}
+     
           <div className="w-[300px] h-[300px] relative">
             <ResponsiveContainer>
               <PieChart>
@@ -89,7 +89,7 @@ export default function Stats() {
               </PieChart>
             </ResponsiveContainer>
 
-            {/* CENTER TOTAL */}
+            
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <span className="text-5xl font-black text-[#1E293B]">
                 {total}
@@ -101,7 +101,7 @@ export default function Stats() {
           </div>
         </div>
 
-        {/* 🔥 Bottom Cards (UNCHANGED) */}
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
           {data.map((item, index) => (
             <div
