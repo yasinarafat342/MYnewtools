@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserPlus, Loader2 } from 'lucide-react'; // Loader2 আইকন যোগ করলাম
-
+import { UserPlus, Loader2 } from 'lucide-react'; 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [friends, setFriends] = useState([]);
-  const [loading, setLoading] = useState(true); // লোডিং স্টেট যোগ করলাম
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // ডাটা ফেচিং শুরু
+    
     setLoading(true);
     fetch('/friends.json')
       .then((res) => res.json())
       .then((data) => {
         setFriends(data);
-        // রিয়েল লাইফ ফিল দেওয়ার জন্য সামান্য ডিলে যোগ করা হয়েছে
+        
         setTimeout(() => setLoading(false), 800); 
       })
       .catch((err) => {
@@ -24,7 +23,7 @@ const Home = () => {
       });
   }, []);
 
-  // লোডিং অ্যানিমেশন স্ক্রিন
+  
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] bg-[#F9FAFB]">
@@ -39,7 +38,7 @@ const Home = () => {
   return (
     <div className="max-w-7xl mx-auto px-10 py-20 bg-[#F9FAFB]">
       
-      {/* --- 1. Banner Section --- */}
+      
       <div className="text-center mb-20 animate-in fade-in slide-in-from-top-4 duration-700">
         <h1 className="text-6xl font-black text-[#1E293B] mb-6 tracking-tighter italic">
           Friends to keep close in your life
@@ -56,7 +55,7 @@ const Home = () => {
         </button>
       </div>
 
-      {/* --- 2. Summary Stats Cards --- */}
+      
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-24 text-center">
         <div className="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm flex flex-col items-center justify-center hover:shadow-md transition-shadow">
           <h3 className="text-5xl font-black text-[#1E293B]">{friends.length}</h3>
@@ -76,7 +75,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* --- 3. Your Friends Grid --- */}
+      
       <div className="mb-10">
         <h2 className="text-3xl font-black text-[#1E293B] mb-12">Your Friends</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

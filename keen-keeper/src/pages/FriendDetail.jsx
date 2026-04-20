@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Phone, MessageSquare, Video, Bell, Archive, Trash2, Edit2, Clock } from 'lucide-react';
-import { useInteractions } from '../InteractionContext'; // কন্টেক্সট ইম্পোর্ট
-import toast, { Toaster } from 'react-hot-toast'; // নোটিফিকেশন এর জন্য
+import { useInteractions } from '../InteractionContext'; 
+import toast, { Toaster } from 'react-hot-toast'; 
 
 const FriendDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [friend, setFriend] = useState(null);
-  const { addInteraction } = useInteractions(); // কন্টেক্সট থেকে ফাংশন নেওয়া
+  const { addInteraction } = useInteractions(); 
 
   useEffect(() => {
     fetch('/friends.json')
@@ -19,7 +19,7 @@ const FriendDetail = () => {
       });
   }, [id]);
 
-  // ইন্টারঅ্যাকশন হ্যান্ডলার
+  
   const handleInteraction = (type) => {
     if (!friend) return;
 
@@ -30,10 +30,10 @@ const FriendDetail = () => {
       timestamp: new Date().getTime()
     };
     
-    // টাইমলাইনে ডাটা পাঠানো
+  
     addInteraction(newInteraction);
 
-    // সুন্দর নোটিফিকেশন দেখানো
+    
     toast.success(`${type} interaction logged for ${friend.name}!`, {
       style: {
         borderRadius: '16px',
@@ -44,18 +44,17 @@ const FriendDetail = () => {
       },
     });
 
-    // চাইলে সরাসরি টাইমলাইনে নিয়ে যেতে পারো নিচের লাইনটি আনকমেন্ট করে
-    // setTimeout(() => navigate('/timeline'), 1500); 
+    
   };
 
   if (!friend) return <div className="p-20 text-center font-black">Loading...</div>;
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col lg:flex-row gap-8 bg-[#F9FAFB]">
-      {/* নোটিফিকেশন হোল্ডার */}
+      
       <Toaster position="top-center" reverseOrder={false} />
 
-      {/* --- Left Sidebar (Profile) --- */}
+      
       <div className="lg:w-1/4 flex flex-col gap-6">
         <div className="bg-white rounded-[40px] p-8 shadow-sm border border-gray-100 flex flex-col items-center text-center">
           <img 
@@ -80,7 +79,7 @@ const FriendDetail = () => {
           <p className="text-gray-500 text-sm font-medium leading-relaxed italic">"{friend.bio}"</p>
         </div>
 
-        {/* Action Menu */}
+        
         <div className="bg-white rounded-[24px] overflow-hidden shadow-sm border border-gray-100 font-bold text-sm text-gray-600">
           <button className="w-full flex items-center gap-3 px-6 py-4 hover:bg-gray-50 border-b border-gray-50 transition-colors">
             <Bell size={18} /> Snooze 2 Weeks
@@ -94,10 +93,10 @@ const FriendDetail = () => {
         </div>
       </div>
 
-      {/* --- Right Side (Stats & Check-in) --- */}
+    
       <div className="lg:w-3/4 flex flex-col gap-6">
         
-        {/* Metric Cards */}
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100 text-center">
             <h3 className="text-5xl font-black text-[#2B4E41]">{friend.days_since_contact}</h3>
@@ -113,7 +112,7 @@ const FriendDetail = () => {
           </div>
         </div>
 
-        {/* Relationship Goal */}
+        
         <div className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100 relative">
           <button className="absolute top-6 right-8 text-gray-400 border border-gray-200 px-3 py-1 rounded-lg text-xs font-black flex items-center gap-1 hover:bg-gray-50 transition-all">
             <Edit2 size={14} /> Edit
@@ -122,7 +121,7 @@ const FriendDetail = () => {
           <p className="text-gray-500 font-medium">Connect every <span className="text-gray-900 font-black">{friend.goal} days</span></p>
         </div>
 
-        {/* Quick Check-In (ফাংশনাল বাটন) */}
+        
         <div className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100">
           <h4 className="text-[10px] font-black text-gray-900 mb-6 uppercase tracking-[0.2em]">Quick Check-In</h4>
           <div className="grid grid-cols-3 gap-4">
@@ -150,7 +149,7 @@ const FriendDetail = () => {
           </div>
         </div>
 
-        {/* Interactions History Footer */}
+        
         <div className="bg-white rounded-[32px] shadow-sm border border-gray-100 overflow-hidden">
           <div className="flex justify-between items-center p-6 border-b border-gray-50">
             <h4 className="text-[10px] font-black text-gray-900 uppercase tracking-[0.2em]">Recent Interactions</h4>
