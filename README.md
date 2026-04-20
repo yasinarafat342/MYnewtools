@@ -1,6 +1,6 @@
-# 🚀 KeenKeeper - Personal Interaction Tracker
+# 🚀 Mynewtools - Personal Interaction Tracker
 
-**KeenKeeper** is a sleek web application designed to help users track and manage their social interactions. Whether it's a phone call, a text message, or a physical meetup, KeenKeeper provides a structured timeline to visualize your social life.
+**Mynewtools** is a sleek web application designed to help users track and manage their social interactions. Whether it's a phone call, a text message, or a physical meetup, KeenKeeper provides a structured timeline to visualize your social life.
 
 ## ✨ Key Features
 - **Interaction Logging:** Easily log calls, texts, videos, and meetups.
